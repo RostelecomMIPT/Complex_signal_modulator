@@ -4,21 +4,22 @@ clc;
 
 %входные данные
 Nfft = 1024;
-wo = 50;
+wo = -pi/100;
 
 %сам алгоритм
+%создание фурье-образа. Не симмитричный
 F = zeros(1, Nfft/2);
 for k = 2+100:Nfft/8+100
-    F(k) = k/4;
+    F(k) = 10 + 1i*10;
 end
+plot(abs(F));
 IQ = ifft(F,Nfft/2);
-I = real(IQ);
-Q = imag(IQ);
-NewI = I*cos(wo) - Q*sin(wo);
-NewQ = - I*cos(wo) + Q*sin(wo) ;
-NewIQ = NewI + 1i*NewQ;
-NewF = fft(NewIQ,Nfft/2);
-plot(F);
-hold on;
-plot(abs(NewF));
+for wo=-40:1:-30
+    for k=1:Nfft/2
+        NewIQ(k) = IQ(k)*exp(1i*wo*k);
+    end
+    NewF = fft(NewIQ,Nfft/2);
+    hold on;
+    plot(abs(NewF));
+end
 z=0;
