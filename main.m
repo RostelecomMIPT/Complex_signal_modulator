@@ -3,19 +3,16 @@ clear all;
 clc;
 
 %входные данные
+rng(0);
 Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
 Nsk = 16;
 Nfft = 1024;
 Nc = 100;
-LevelOfIncreasing = 3;
-SNR = 30;
-NumbSymbol = 1;
-rng(0);
 w = -50;
-wo = 1.9;
+wo = 0.2;
 
 %алгоритм
-InputBits = randi([0,1],1,(Nc*sqrt(Nsk)*NumbSymbol));
+InputBits = randi([0,1],1,(Nc*sqrt(Nsk)));
 Bits = RSLOS(InputBits, Register);
 MedSignalInF = Mapper(Bits, Nsk,Nfft);
 %:^ из прошлого алгоритма 16-КАМ
