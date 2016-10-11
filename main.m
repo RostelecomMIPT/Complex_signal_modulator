@@ -6,19 +6,21 @@ clc;
 Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
 Nsk = 16;
 Nfft = 1024;
-Nc = 300;
+Nc = 100;
 LevelOfIncreasing = 3;
 SNR = 30;
 NumbSymbol = 1;
 rng(0);
-wo = -100;
+w = -50;
+wo = 1.9;
 
 %אכדמנטעל
 InputBits = randi([0,1],1,(Nc*sqrt(Nsk)*NumbSymbol));
 Bits = RSLOS(InputBits, Register);
 MedSignalInF = Mapper(Bits, Nsk,Nfft);
 %:^ טח ןנמרכמדמ אכדמנטעלא 16-Êְּ
-IQ = ComplexIQ_F(MedSignalInF,wo,Nfft);
-hold on;
-plot(abs(IQ));
+IQ_F = ComplexIQ_F(MedSignalInF,w,Nfft);
+IQShifted = Shift(IQ_F, wo, Nfft);
+plot(abs(IQShifted));
+scatterplot(IQShifted);
 z=0;
