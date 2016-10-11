@@ -3,23 +3,22 @@ clear all;
 clc;
 
 %входные данные
+Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
+Nsk = 16;
 Nfft = 1024;
-wo = -pi/100;
+Nc = 300;
+LevelOfIncreasing = 3;
+SNR = 30;
+NumbSymbol = 1;
+rng(0);
+wo = -100;
 
-%сам алгоритм
-%создание фурье-образа. Не симмитричный
-F = zeros(1, Nfft/2);
-for k = 2+100:Nfft/8+100
-    F(k) = 10 + 1i*10;
-end
-plot(abs(F));
-IQ = ifft(F,Nfft/2);
-for wo=-40:1:-30
-    for k=1:Nfft/2
-        NewIQ(k) = IQ(k)*exp(1i*wo*k);
-    end
-    NewF = fft(NewIQ,Nfft/2);
-    hold on;
-    plot(abs(NewF));
-end
+%алгоритм
+InputBits = randi([0,1],1,(Nc*sqrt(Nsk)*NumbSymbol));
+Bits = RSLOS(InputBits, Register);
+MedSignalInF = Mapper(Bits, Nsk,Nfft);
+%:^ из прошлого алгоритма 16-КАМ
+IQ = ComplexIQ_F(MedSignalInF,wo,Nfft);
+hold on;
+plot(abs(IQ));
 z=0;
