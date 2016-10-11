@@ -9,7 +9,7 @@ Nsk = 16;
 Nfft = 1024;
 Nc = 100;
 w = -50;
-wo = 0.2;
+wo = 0.1;
 
 %אכדמנטעל
 InputBits = randi([0,1],1,(Nc*sqrt(Nsk)));
