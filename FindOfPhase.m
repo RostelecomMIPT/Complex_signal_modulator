@@ -9,7 +9,7 @@ function [ sdv ] = FindOfPhase( IQ_Ts, Nfft )
     end
     MultiplicationBySymbol = sum(MedMultiplicationBySymbol,2);
     for k = 1 : ( length(IQ_Ts)/(Nfft + Nfft/8) )
-        sdv(k) = atan(angle(MultiplicationBySymbol(k)))   
+        sdv(k) = angle(MultiplicationBySymbol(k))   
     end
     z = 0;
 end
