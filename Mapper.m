@@ -31,11 +31,10 @@ n=1;
                   0 0 0 0];
     Dictionary2 = Dictionary2';
     Dictionary = [Dictionary1Re; Dictionary1Im ; Dictionary2];
-    MedSignalInF = zeros(1,Nfft);
     for k = 1 : sqrt(Nsk) : length(Bits)
         for l = 1 : Nsk 
             if ((Bits(k:k+sqrt(Nsk)-1))' == Dictionary(3:6,l))
-                MedSignalInF(fix (k/sqrt(Nsk)) + 2) =...
+                MedSignalInF(fix (k/sqrt(Nsk)) + 1) =...
                     complex(Dictionary(1,l),Dictionary(2,l));
                 break;
             end

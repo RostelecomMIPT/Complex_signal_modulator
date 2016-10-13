@@ -10,14 +10,15 @@ Nfft = 1024;
 Nc = 100;
 w = -50;
 wo = 0.1;
+NumbOfSymbol = 2;
 
 %אכדמנטעל
-InputBits = randi([0,1],1,(Nc*sqrt(Nsk)));
+InputBits = randi([0,1], 1, NumbOfSymbol*Nc*sqrt(Nsk) );
 Bits = RSLOS(InputBits, Register);
-MedSignalInF = Mapper(Bits, Nsk,Nfft);
-%:^ טח ןנמרכמדמ אכדמנטעלא 16-Êְּ
-IQ_F = ComplexIQ_F(MedSignalInF,w,Nfft);
-IQShifted = Shift(IQ_F, wo, Nfft);
+MedSignalInF = Mapper(Bits, Nsk, Nfft);
+[ NewIQ_F, NewIQ ] = ComplexIQ(MedSignalInF, w, Nfft, Nc);
+IQShifted = Shift(NewIQ_F, wo, Nfft);
+IQShifted_Ts = Ts(IQShifted, Nfft);
 plot(abs(IQShifted));
 scatterplot(IQShifted);
 z=0;
