@@ -15,13 +15,12 @@ function [ NewIQ_F, NewIQ ] = ComplexIQ( MedSignalInF, wo, Nfft, Nc )
     NewIQBySymbol = complex(NewI,NewQ);
     NewIQ = NewIQBySymbol(1, 1:Nfft);
     for k = 1 : length(MedSignalInF)/Nc
-        NewIQ_F(k,:) = fft(NewIQBySymbol((k, :), Nfft);% фурье образ 
+        NewIQ_F(k,:) = fft(NewIQBySymbol(k, :), Nfft);% фурье образ 
     end
     if (length(MedSignalInF)/Nc) > 1
         for k = 2 : length(MedSignalInF)/Nc
             NewIQ = [ NewIQ NewIQBySymbol(k, :) ];%complex signal
         end
     end
-    %Смещённый сигнал, который уже комлпкксный(мы его и хотели
 end
 
