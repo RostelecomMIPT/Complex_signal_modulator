@@ -26,6 +26,7 @@ IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift,SNR,'measured');
 % plot(abs(IQ_Ts_Shift_Noise));
 sdv = FindOfPhase(IQ_Ts_Shift_Noise, Nfft);
 IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, sdv, Nfft);
+TimeSync = TimeSync(IQ_Ts_Unshifted, Nfft);
 % for k = 1 : NumbOfSymbol
 %     scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
 % end
