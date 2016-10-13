@@ -21,6 +21,6 @@ function [ sdv ] = FindOfPhase( IQ_Ts_Shift, Nfft )
             sqrt(DownBySymbolA(k) * (DownBySymbolB(k))');
         sdv(k) = angle(Med(k))/(2*pi);
     end
-    z = 0;
+    sdv = sdv(1);
 end
 
