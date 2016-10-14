@@ -3,14 +3,15 @@ clear all;
 clc;
 
 %входные данные
-% rng(0);
+rng(0);
 Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
 Nsk = 16;
 Nfft = 1024;
-Nc = 400;
+Nc = 500;
 w = 0.1;
 NumbOfSymbol = 5;
 SNR = 0;
+LevelOfIncreasing = 3;
 
 %алгоритм
 InputBits = randi([0,1], 1, NumbOfSymbol*Nc*sqrt(Nsk) );
@@ -26,7 +27,8 @@ IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift,SNR,'measured');
 % plot(abs(IQ_Ts_Shift_Noise));
 sdv = FindOfPhase(IQ_Ts_Shift_Noise, Nfft);
 IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, sdv, Nfft);
-TimeSync = TimeSync(IQ_Ts_Unshifted, Nfft);
+IQ_Ts_Unshifted(1:129) = [];
+[AutoCorr, Position] = TimeSync(IQ_Ts_Unshifted, Nfft, LevelOfIncreasing);
 % for k = 1 : NumbOfSymbol
 %     scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
 % end
