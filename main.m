@@ -3,13 +3,13 @@ clear all;
 clc;
 
 %входные данные
-rng(0);
+% rng(0);
 Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
 Nsk = 16;
 Nfft = 1024;
-Nc = 100;
+Nc = 400;
 w = 0.1;
-NumbOfSymbol = 10;
+NumbOfSymbol = 5;
 SNR = 0;
 
 %алгоритм
