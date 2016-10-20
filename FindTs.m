@@ -1,4 +1,4 @@
-function [ Position ] = FindTs( AbsAutoCorr, LevelOfIncreasing, Nfft )
+function [ Position ] = FindTs( AbsAutoCorr, LevelOfIncreasing )
     [MaxAmp, MaxIndex] = max(AbsAutoCorr());
     CutLevel = MaxAmp*(10^(-(LevelOfIncreasing/20)));
     l = 1; m = 1;

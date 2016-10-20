@@ -12,19 +12,19 @@ w = 0.1;
 NumbOfSymbol = 5;
 SNR = 0;
 LevelOfIncreasing = 3;
+Ration_Of_Pilots = 0.1; 
 
 %אכדמנטעל
-InputBits = randi([0,1], 1, NumbOfSymbol*Nc*sqrt(Nsk) );
+InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
+                        NumbOfSymbol*Nc*sqrt(Nsk) );
 Bits = RSLOS(InputBits, Register);
+[ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
 MedSignalInF = Mapper(Bits, Nsk, Nfft);
+
 [ SignalInF, Signal ] = SignalAndF( MedSignalInF, Nfft, Nc );
 SignalTs = AddTs (Signal, Nfft);
 IQ_Ts_Shift = Shift( SignalTs, w, Nfft );
 IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift,SNR,'measured');
-% plot(abs(IQ_Ts_Shift) - abs(IQ_Ts_Shift_Noise));
-% hold on;
-% plot(abs(IQ_Ts_Shift));
-% plot(abs(IQ_Ts_Shift_Noise));
 sdv = FindOfPhase(IQ_Ts_Shift_Noise, Nfft);
 IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, sdv, Nfft);
 IQ_Ts_Unshifted(1:129) = [];
