@@ -19,8 +19,9 @@ InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
                         NumbOfSymbol*Nc*sqrt(Nsk) );
 Bits = RSLOS(InputBits, Register);
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
-MedSignalInF = Mapper(Bits, Nsk, Nfft);
 
+InformF = Mapper(Bits, Nsk, Nfft);
+MedSignalInF = Inform_And_Pilot ( InformF, Index_Inform, Index_Pilot ); 
 [ SignalInF, Signal ] = SignalAndF( MedSignalInF, Nfft, Nc );
 SignalTs = AddTs (Signal, Nfft);
 IQ_Ts_Shift = Shift( SignalTs, w, Nfft );

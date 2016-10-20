@@ -1,0 +1,6 @@
+function [ SignalInF ] = Inform_And_Pilot( InformF, Index_Inform,...
+                                            Index_Pilot )
+    InformBySymbol = reshape (InformF, length(InformF)/length(Index_Inform),...
+        length(Index_Inform));
+end
+
