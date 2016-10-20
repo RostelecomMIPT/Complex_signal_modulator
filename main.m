@@ -10,7 +10,7 @@ Nfft = 1024;
 Nc = 500;
 w = 0.1;
 NumbOfSymbol = 5;
-SNR = 0;
+SNR = 100;
 LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
 
@@ -27,11 +27,15 @@ MedSignalInF = Inform_And_Pilot ( InformF, Index_Inform, Index_Pilot );
 SignalTs = AddTs (Signal, Nfft);
 IQ_Ts_Shift = Shift( SignalTs, w, Nfft );
 IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift,SNR,'measured');
+% Выше - модуль с модулятором
+% Ниже - модуль с демодулятором. Сигнал приходит на приёмник
+
+IQ_Ts_Shift_Noise(1:129) = [];
+
 sdv = FindOfPhase(IQ_Ts_Shift_Noise, Nfft);
 IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, sdv, Nfft);
-IQ_Ts_Unshifted(1:129) = [];
 [AutoCorr, Position] = TimeSync(IQ_Ts_Unshifted, Nfft);
-% for k = 1 : NumbOfSymbol
-%     scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
-% end
+for k = 1 : NumbOfSymbol - 1
+    scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
+end
 z=0;

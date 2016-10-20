@@ -1,8 +1,8 @@
 function [ sdv ] = FindOfPhase( IQ_Ts_Shift, Nfft )
-    DownBySymbolA = zeros(length(IQ_Ts_Shift)/(Nfft + Nfft/8),1);
-    DownBySymbolB = zeros(length(IQ_Ts_Shift)/(Nfft + Nfft/8),1);
-    UpMedMultiplicationBySymbol = zeros(length(IQ_Ts_Shift)/(Nfft + Nfft/8),1);
-    for k = 1 : ( length(IQ_Ts_Shift)/(Nfft + Nfft/8) )
+    DownBySymbolA = zeros(fix(length(IQ_Ts_Shift)/(Nfft + Nfft/8)),1);
+    DownBySymbolB = zeros(fix(length(IQ_Ts_Shift)/(Nfft + Nfft/8)),1);
+    UpMedMultiplicationBySymbol = zeros(fix(length(IQ_Ts_Shift)/(Nfft + Nfft/8)),1);
+    for k = 1 : ( fix(length(IQ_Ts_Shift)/(Nfft + Nfft/8)) )
         for l = 1 : Nfft/8
             UpMedMultiplicationBySymbol(k) = ...
                 UpMedMultiplicationBySymbol(k) +...
@@ -16,7 +16,7 @@ function [ sdv ] = FindOfPhase( IQ_Ts_Shift, Nfft )
                 IQ_Ts_Shift( k*(Nfft+ Nfft/8) - Nfft/8 + l )';
         end
     end
-    for k = 1 : ( length(IQ_Ts_Shift)/(Nfft + Nfft/8) )
+    for k = 1 : ( fix(length(IQ_Ts_Shift)/(Nfft + Nfft/8)) )
         Med(k) = UpMedMultiplicationBySymbol(k)/...
             sqrt(DownBySymbolA(k) * (DownBySymbolB(k))');
         sdv(k) = angle(Med(k))/(2*pi);

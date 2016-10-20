@@ -9,7 +9,7 @@ function [ AutoCorr, Position ] = TimeSync( IQ_Ts_Unshifted, Nfft )
         AutoCorr(k) = abs(Up/sqrt(Down1*Down2));
     end
 %     plot(AutoCorr);
-    hold on;
+%     hold on;
     for k = 1 : fix(length(IQ_Ts_Unshifted)/(Nfft + Nfft/8)) - 1
         [ EmptyAmp, Position(k)] = max(...
             AutoCorr(...
