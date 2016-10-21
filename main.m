@@ -30,11 +30,14 @@ IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift,SNR,'measured');
 % Выше - модуль с модулятором
 % Ниже - модуль с демодулятором. Сигнал приходит на приёмник
 
-IQ_Ts_Shift_Noise(1:129) = [];
+IQ_Ts_Shift_Noise(1:500) = [];
 
-sdv = FindOfPhase(IQ_Ts_Shift_Noise, Nfft);
-IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, sdv, Nfft);
-[AutoCorr, Position] = TimeSync(IQ_Ts_Unshifted, Nfft);
+[ AbsAutoCorr, AutoCorr, PositionTs1 ] = FuncCorrelation(...
+        IQ_Ts_Shift_Noise, Nfft, LevelOfIncreasing );
+
+PhaseFreq = FindOfPhase(AutoCorr, Nfft, PositionTs1);
+IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, PhaseFreq, Nfft);
+Position = FuncCorrelation(IQ_Ts_Unshifted, Nfft);
 for k = 1 : NumbOfSymbol - 1
     scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
 end
