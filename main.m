@@ -10,9 +10,10 @@ Nfft = 1024;
 Nc = 500;
 w = 0.1;
 NumbOfSymbol = 5;
-SNR = 100;
+SNR = 500;
 LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
+Fi = 0;
 
 %алгоритм
 InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
@@ -25,20 +26,23 @@ InformF = Mapper(Bits, Nsk, Nfft);
 MedSignalInF = Inform_And_Pilot ( InformF, Index_Inform, Index_Pilot ); 
 [ SignalInF, Signal ] = SignalAndF( MedSignalInF, Nfft, Nc );
 SignalTs = AddTs (Signal, Nfft);
-IQ_Ts_Shift = Shift( SignalTs, w, Nfft );
-IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift,SNR,'measured');
+IQ_Ts_Shift = Shift( SignalTs, w, Fi, Nfft );
+IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift, SNR, 'measured');
 % Выше - модуль с модулятором
 % Ниже - модуль с демодулятором. Сигнал приходит на приёмник
 
 IQ_Ts_Shift_Noise(1:500) = [];
-
+%Грубый поиск середины защитного интервала
 [ AbsAutoCorr, AutoCorr, PositionTs1 ] = FuncCorrelation(...
         IQ_Ts_Shift_Noise, Nfft, LevelOfIncreasing );
-
-PhaseFreq = FindOfPhase(AutoCorr, Nfft, PositionTs1);
-IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, PhaseFreq, Nfft);
-Position = FuncCorrelation(IQ_Ts_Unshifted, Nfft);
-for k = 1 : NumbOfSymbol - 1
-    scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
-end
+%Частотная синхронизация
+PhaseFreq =  FindOfPhase(AutoCorr, Nfft, PositionTs1);
+IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, PhaseFreq, Fi, Nfft);
+w = 0;
+%далее поиск точной позиции ОФДМ-символа
+IQ_Ts_Unsifted_TimeSync = ...
+    FuncTs(IQ_Ts_Unshifted, Nfft, LevelOfIncreasing , Index_Pilot);
+% for k = 1 : NumbOfSymbol - 1
+%     scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
+% end
 z=0;

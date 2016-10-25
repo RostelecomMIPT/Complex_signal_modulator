@@ -10,7 +10,7 @@ function [ SignalInF ] = Inform_And_Pilot( InformF, Index_Inform,...
                 case 1
                     MedSignalInF(k, Index_Pilot(:)) = 5 * exp(0);
                 case 0
-                    MedSignalInF(k, Index_Pilot(:)) = 5 * exp(1i * pi);
+                    MedSignalInF(k, Index_Pilot(:)) = 5 * exp(0);
             end
         end
         SignalInF = [ SignalInF MedSignalInF(k,:)];
