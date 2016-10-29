@@ -41,7 +41,7 @@ IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, 0, Fi, Nfft);
 w = 0;
 %далее поиск точной позиции ОФДМ-символа
 IQ_Ts_Unsifted_TimeSync = ...
-    FuncTs( IQ_Ts_Unshifted, Nfft, LevelOfIncreasing , Index_Pilot );
+    FuncTs( IQ_Ts_Unshifted, Nfft, LevelOfIncreasing , Index_Pilot, Nc );
 % for k = 1 : NumbOfSymbol - 1
 %     scatterplot(fft(IQ_Ts_Unshifted(Nfft/8+ 1 + (k-1)*(Nfft+Nfft/8):k*(Nfft+Nfft/8))));
 % end
