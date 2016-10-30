@@ -1,5 +1,4 @@
 function [ SignalInF, Signal ] = SignalAndF( MedSignalInF, Nfft, Nc )
-    SignalInF = zeros( length(MedSignalInF)/Nc , Nfft ); 
     for k = 1: length(MedSignalInF)/Nc
         for l = 2 : Nc
             SignalInF(k,l) = MedSignalInF((l-1) + (k-1)*Nc);

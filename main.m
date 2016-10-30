@@ -23,15 +23,15 @@ Bits = RSLOS(InputBits, Register);
 
 Nc = Nc + 1;
 InformF = Mapper(Bits, Nsk, Nfft);
-MedSignalInF = Inform_And_Pilot ( InformF, Index_Inform, Index_Pilot ); 
-[ SignalInF, Signal ] = SignalAndF( MedSignalInF, Nfft, Nc );
+[MedSignalInF, Signal] = Inform_And_Pilot(...
+                InformF, Index_Inform, Index_Pilot, Nfft ); 
 SignalTs = AddTs (Signal, Nfft);
 IQ_Ts_Shift = Shift( SignalTs, w, Fi, Nfft );
 IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift, SNR, 'measured');
 % Выше - модуль с модулятором
 % Ниже - модуль с демодулятором. Сигнал приходит на приёмник
 
-IQ_Ts_Shift_Noise(1:64) = [];
+IQ_Ts_Shift_Noise(1:500) = [];
 %Грубый поиск середины защитного интервала
 % [ AbsAutoCorr, AutoCorr, PositionTs1 ] = FuncCorrelation(...
 %         IQ_Ts_Shift_Noise, Nfft, LevelOfIncreasing );

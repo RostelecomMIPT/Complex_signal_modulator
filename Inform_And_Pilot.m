@@ -1,19 +1,16 @@
-function [ SignalInF ] = Inform_And_Pilot( InformF, Index_Inform,...
-                                            Index_Pilot )
-    InformBySymbol = reshape (InformF, length(InformF)/length(Index_Inform),...
-        length(Index_Inform));
-    SignalInF = [];
-    for k = 1 : length(InformF)/length(Index_Inform)
-        MedSignalInF(k, Index_Inform(:)) = InformBySymbol(k,:);
-        for l = 1 : length (Index_Pilot) 
-            switch mod(l,2)
-                case 1
-                    MedSignalInF(k, Index_Pilot(:)) = 3 * exp(0);
-                case 0
-                    MedSignalInF(k, Index_Pilot(:)) = 3 * exp(0);
-            end
+function [ MedSignalInF, Signal ] = Inform_And_Pilot( InformF, Index_Inform,...
+                                            Index_Pilot, Nfft )
+        Signal = [];
+        for k = 1 : length(InformF)/length(Index_Inform)
+            MedSignalInF(k,Index_Inform) = InformF((k-1)*...
+                length(Index_Inform) + 1: k*length(Index_Inform));
+            MedSignalInF(k,Index_Pilot) = 3;
         end
-        SignalInF = [ SignalInF MedSignalInF(k,:)];
-    end
+        MedSignalInF = [ zeros(length(InformF)/length(Index_Inform), 1)...
+            MedSignalInF zeros(length(InformF)/length(Index_Inform),...
+            Nfft - max(Index_Pilot) - 1)];
+        for k = 1 : length(InformF)/length(Index_Inform)  
+            Signal = [Signal ifft(MedSignalInF(k,:))];
+        end
 end
 
