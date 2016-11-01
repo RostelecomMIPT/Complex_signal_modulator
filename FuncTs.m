@@ -1,7 +1,5 @@
-function [ MedF ] = FuncTs( IQ_Ts_Unshifted, Nfft, LevelOfIncreasing, ...
-                                    Index_Pilot, Nc)
-    [ AbsAutoCorr, AutoCorr, PositionTs1 ] = FuncCorrelation(...
-        IQ_Ts_Unshifted, Nfft, LevelOfIncreasing );
+function [ MedF1 ] = FuncTs( IQ_Ts_Unshifted, Nfft, LevelOfIncreasing, ...
+                                    Index_Pilot, Nc, PositionTs1)
     Fi =[];
     for k = 1 : fix(length(IQ_Ts_Unshifted)/(Nfft + Nfft/8))
         MedF(k, :) = fft(...
@@ -23,7 +21,7 @@ function [ MedF ] = FuncTs( IQ_Ts_Unshifted, Nfft, LevelOfIncreasing, ...
                ((Left + 1):(Right - 1)) - Right)/(Left - Right);
         end
         MedF1(k,:) = MedF(k,:);
-        MedF1(k,2:Nc+1) = MedF(k,2:Nc + 1) .* exp(-1i*Fi(k,1:Nc));
+        MedF1(k,2:Nc+1) = MedF(k,2:Nc + 1) .* exp(-1i*Fi(1:Nc));
     end
 end
 
