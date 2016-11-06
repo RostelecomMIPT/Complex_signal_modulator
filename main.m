@@ -26,7 +26,7 @@ InformF = Mapper(Bits, Nsk);
                 InformF, Index_Inform, Index_Pilot, Nfft ); 
 SignalTs = AddTs (Signal, Nfft);
 IQ_Ts_Shift = Shift( SignalTs, w, Nfft );
-IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift, SNR, 'measured');
+IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift, SNR, 'measured' );
 % Выше - модуль с модулятором
 % Ниже - модуль с демодулятором. Сигнал приходит на приёмник
 IQ_Ts_Shift_Noise(1:500) = [];
