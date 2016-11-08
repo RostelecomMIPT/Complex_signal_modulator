@@ -10,14 +10,17 @@ Nfft = 1024;
 Nc = 400;
 w = 0;
 NumbOfSymbol = 5;
-SNR = 100;
+SNR = 30;
 LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
-AmpPilot = 3;
+AmpPilot = 10;
 
 %алгоритм
-InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
-                        NumbOfSymbol*Nc*log2(Nsk) );
+
+% InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
+%                         NumbOfSymbol*Nc*log2(Nsk) );
+% Считываение с файла. Пример растровое изображение *.JPG
+
 Bits = RSLOS(InputBits, Register);
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
 
@@ -31,7 +34,7 @@ IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift, SNR, 'measured' );
 % Выше - модуль с модулятором
 % Ниже - модуль с демодулятором. Сигнал приходит на приёмник
 IQ_Ts_Shift_Noise(1:500) = [];
-%Грубый поиск середины защитного интервала
+% Грубый поиск середины защитного интервала
 [ AbsAutoCorr, AutoCorr, PositionTs1 ] = FuncCorrelation(...
         IQ_Ts_Shift_Noise, Nfft, LevelOfIncreasing );
 %Частотная синхронизация
