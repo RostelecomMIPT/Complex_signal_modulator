@@ -5,14 +5,15 @@ clc;
 %входные данные
 rng(0);
 Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
-Nsk = 16;
+Nsk = 64;
 Nfft = 1024;
 Nc = 400;
 w = 0;
 NumbOfSymbol = 5;
-SNR = 20;
+SNR = 100;
 LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
+AmpPilot = 3;
 
 %алгоритм
 InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
@@ -23,7 +24,7 @@ Bits = RSLOS(InputBits, Register);
 Nc = Nc + 1;
 InformF = Mapper(Bits, Nsk);
 [MedSignalInF, Signal] = Inform_And_Pilot(...
-                InformF, Index_Inform, Index_Pilot, Nfft ); 
+                InformF, Index_Inform, Index_Pilot, Nfft, AmpPilot ); 
 SignalTs = AddTs (Signal, Nfft);
 IQ_Ts_Shift = Shift( SignalTs, w, Nfft );
 IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift, SNR, 'measured' );

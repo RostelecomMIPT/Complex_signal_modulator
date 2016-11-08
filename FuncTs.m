@@ -5,14 +5,16 @@ function [ MedF1 ] = FuncTs( IQ_Ts_Unshifted, Nfft, Index_Pilot,...
                 IQ_Ts_Unshifted(...
                     (k - 1)*(Nfft + Nfft/8) + PositionTs1 :...
                     (k - 1)*(Nfft + Nfft/8) + Nfft + PositionTs1 - 1));
+        
         Fi = angle(MedF(k, 2 : Nc+1));
+        Fi(Index_Pilot(2:2:end)) = Fi(Index_Pilot(2:2:end)) - pi;
         
         for l = 1 : length(Index_Pilot) - 1
             Left = Index_Pilot(l);
             Right = Index_Pilot(l + 1);
             Phase_Left = Fi(Left);
             Phase_Right = Fi(Right);
-            if( Phase_Right > Phase_Left ) 
+            while ( Phase_Right > Phase_Left ) 
                 Phase_Right = Phase_Right - 2*pi;
             end
             Fi( (Left + 1 ):(Right - 1) ) =...
