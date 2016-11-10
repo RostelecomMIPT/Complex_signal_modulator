@@ -9,22 +9,25 @@ Nsk = 64;
 Nfft = 1024;
 Nc = 400;
 w = 0;
-NumbOfSymbol = 5;
+% NumbOfSymbol = 5;
 SNR = 30;
 LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
 AmpPilot = 10;
-
+NumbOfSymbol = 10;
+FileNameInput = 'TestScreen.png';
 %алгоритм
 
-% InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
-%                         NumbOfSymbol*Nc*log2(Nsk) );
-% Считываение с файла. Пример растровое изображение *.JPG
-
-Bits = RSLOS(InputBits, Register);
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
 
 Nc = Nc + 1;
+
+% InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
+%                         NumbOfSymbol*Nc*log2(Nsk) );
+
+% Считываение с файла. Пример растровое изображение *.PNG
+InputBits = ReaderWriter (FileNameInput, Nc, Nsk, NumbOfSymbol);
+Bits = RSLOS(InputBits, Register);
 InformF = Mapper(Bits, Nsk);
 [MedSignalInF, Signal] = Inform_And_Pilot(...
                 InformF, Index_Inform, Index_Pilot, Nfft, AmpPilot ); 
