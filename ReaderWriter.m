@@ -1,15 +1,16 @@
-function [ InputBits ] = ReaderWriter ( FileNameInput, Nc, Nsk, NumbOfSymbol )
+function [ InputBits, Trigger ] = ReaderWriter ( FileNameInput, Nc,...
+    Nsk, NumbOfSymbol, Trigger )
     LengthOfBuffer = Nc*log2(Nsk)*NumbOfSymbol;
     InputFile = fopen(FileNameInput,'r');
-    ByteFile = (de2bi( fread( InputFile ))).';
+    ByteFile = (de2bi( fread( InputFile, LengthOfBuffer/8 ))).';
     fclose(InputFile);
-    [SizeOfFile1, SizeOfFile2] = size(ByteFile);
-    SizeOfFile = SizeOfFile1*SizeOfFile2;
-    Bits = reshape(ByteFile, [1, SizeOfFile]);
+    [Size1, Size2] = size(ByteFile);
+    Size = Size1*Size2;
+    InputBits = reshape(ByteFile, [1, Size]);
     % создание массива битов из Н-ОФДМ символов
-    if mod(SizeOfFile, LengthOfBuffer) ~= 0
-        Bits = [Bits zeros(1,LengthOfBuffer - mod(SizeOfFile, LengthOfBuffer))];
+    if mod(Size, LengthOfBuffer) ~= 0
+        InputBits = [InputBits zeros(1,LengthOfBuffer - mod(Size, LengthOfBuffer))];
+        Trigger = 1;
     end
-    InputBits = reshape(Bits, LengthOfBuffer, length(Bits)/LengthOfBuffer).';
 end
 
