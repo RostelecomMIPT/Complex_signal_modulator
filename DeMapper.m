@@ -1,5 +1,4 @@
-function [ OutputBits ] = DeMapper(...
-    UsedF, Index_Inform, Nsk )
+function [ OutputBits ] = DeMapper( UsedF, Nsk )
 
     switch Nsk
         case 4 % QPSK
@@ -20,15 +19,15 @@ function [ OutputBits ] = DeMapper(...
                            -5-3j -1-7j -1-5j -3-7j -3-5j -1-1j -1-3j...
                            -3-1j -3-3j].';
     end
-    MedF = UsedF(:,Index_Inform);
-    [Size1, Size2] = size(MedF);
+    [Size1, Size2] = size(UsedF);
     LengthMed = Size1 * Size2;
-    Med = reshape (MedF.', 1, LengthMed);
+    Med = reshape (UsedF.', 1, LengthMed);
     for k = 1 : length(Med)
         a = Med(k).*ones(length(Dictionary), 1);
         [a1, Numb] = min(a - Dictionary);
-        BinaryArray(k,:) = (de2bi(Numb-1,log2(Nsk))).';
+        BinaryArray(:,k) = de2bi(Numb-1,log2(Nsk), 'left-msb');
     end
-%     OutputBits = reshape(BinaryArray, 1, log2(Nsk)*length(Med));
+    z=0;
+    OutputBits = reshape(BinaryArray, 1, log2(Nsk)*length(Med));
 end
 
