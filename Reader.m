@@ -11,6 +11,5 @@ function [ InputBits, AddZeroes ] = Reader ( FileNameInput, Nsk,...
         AddZeroes = length(Index_Inform)*log2(Nsk) - k;
         InputBits = [InputBits zeros(1,AddZeroes)];
     end
-    % �������� ������� ����� �� �-���� ��������
 end
 
