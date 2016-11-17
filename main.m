@@ -4,17 +4,22 @@ clc;
 
 rng(0);
 Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
-Nsk = 64;
+Nsk = 16;
 Nfft = 1024;
 Nc = 400;
-w = 0.1;
-SNR = 30;
+w = 0;
+SNR = 200;
 LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
-AmpPilot = 10;
+AmpPilot = 5;
 NumbOfSymbol = 8; % kratno 8
-FileNameInput = '12345678.txt'; %'TestScreen.png';
+FileNameInput = '12345678'; %'TestScreen.png';
 FileNameOutput = 'OutPutFile';
+% a1 = fopen(FileNameInput,'r');
+% a2 = fopen(FileNameOutput, 'w');
+% a3 = fread(a1);
+% fwrite(a2, a3);
+% fclose('all');
 
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
 
@@ -48,10 +53,11 @@ IndexShiftEnd = length(IQ_Ts_Shift_Noise) - (Nfft + Nfft/8 - 500);
 
 PhaseFreq =  FindOfPhase(AutoCorr, Nfft, PositionTs1);
 IQ_Ts_Unshifted = Shift(IQ_Ts_Shift_Noise, PhaseFreq, Nfft);
+
 IQ_Ts_Unshifted(1:PositionTs1) = [];
+
 MedFunc_TSync_FreqSync = ...
-    FuncTs( IQ_Ts_Unshifted, Nfft , Index_Pilot, Nc,...
-    PositionTs1 );
+    FuncTs( IQ_Ts_Unshifted, Nfft , Index_Pilot, Nc);
 UsedF = -MedFunc_TSync_FreqSync(:,Index_Inform + 1);
 OutputBits =  DeMapper(UsedF, Nsk);
 OutpuBitsRSLOS = RSLOS(OutputBits, Register);     

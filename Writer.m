@@ -1,6 +1,10 @@
 function [ ] = Writer( FileNameOutput, OutpuBitsRSLOS, AddZeroes )
-    OutputFile = fopen( FileNameOutput, 'a+');
-    fwrite(OutputFile, OutpuBitsRSLOS(1:end - AddZeroes));
+    OutpuBitsRSLOS = OutpuBitsRSLOS(1:end - AddZeroes);
+    OutputBitsByBytes =...
+        (reshape(OutpuBitsRSLOS, 8, length(OutpuBitsRSLOS)/8)).';
+    OutputBytes = bi2de(OutputBitsByBytes, 'left-msb');
+    OutputFile = fopen( FileNameOutput, 'w+');
+    fwrite(OutputFile, OutputBytes);
     fclose(OutputFile);
 end
 
