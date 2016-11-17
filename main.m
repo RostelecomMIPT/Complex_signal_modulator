@@ -23,12 +23,11 @@ FileNameOutput = 'OutPutFile';
 
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
 
+InputBits = randi( [0,1], 1, (1 - Ration_Of_Pilots) *...
+                        NumbOfSymbol*Nc*log2(Nsk) );
+
 Nc = Nc + 1;
-
-% InputBits = randi([0,1], 1, (1 - Ration_Of_Pilots) *...
-%                         NumbOfSymbol*Nc*log2(Nsk) );
-
-[ InputBits, AddZeroes ] = Reader (FileNameInput, Nsk, Index_Inform);
+% [ InputBits, AddZeroes ] = Reader (FileNameInput, Nsk, Index_Inform);
 Bits = RSLOS( InputBits, Register );
 InformF = Mapper(Bits, Nsk);
 [MedSignalInF, Signal] = Inform_And_Pilot(...
@@ -38,7 +37,6 @@ SignalTs = AddTs (Signal, Nfft);
 
 IQ_Ts_Shift = Shift( SignalTs, w, Nfft );
 IQ_Ts_Shift_Noise = awgn(IQ_Ts_Shift, SNR, 'measured' );
-
 
 IQ_Ts_Shift_Noise = [IQ_Ts_Shift_Noise(1:Nfft+Nfft/8)...
     IQ_Ts_Shift_Noise...
