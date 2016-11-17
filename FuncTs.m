@@ -7,7 +7,7 @@ function [ MedF1 ] = FuncTs( IQ_Ts_Unshifted, Nfft, Index_Pilot, Nc)
                     (k - 1)*(Nfft + Nfft/8) + Nfft));
 
         Fi = angle(MedF(k, 2 : Nc + 1));
-        Fi(Index_Pilot(2:2:end)) = Fi(Index_Pilot(2:2:end)) - pi;
+       Fi(Index_Pilot(2:2:end)) = Fi(Index_Pilot(2:2:end)) - pi;
         
         for l = 1 : length(Index_Pilot) - 1
             Left = Index_Pilot(l);

@@ -23,11 +23,11 @@ FileNameOutput = 'OutPutFile';
 
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
 
-InputBits = randi( [0,1], 1, (1 - Ration_Of_Pilots) *...
-                        NumbOfSymbol*Nc*log2(Nsk) );
+% InputBits = randi( [0,1], 1, (1 - Ration_Of_Pilots) *...
+%                         NumbOfSymbol*Nc*log2(Nsk) );
 
 Nc = Nc + 1;
-% [ InputBits, AddZeroes ] = Reader (FileNameInput, Nsk, Index_Inform);
+[ InputBits, AddZeroes ] = Reader (FileNameInput, Nsk, Index_Inform);
 Bits = RSLOS( InputBits, Register );
 InformF = Mapper(Bits, Nsk);
 [MedSignalInF, Signal] = Inform_And_Pilot(...
