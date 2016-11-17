@@ -13,7 +13,7 @@ LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
 AmpPilot = 10;
 NumbOfSymbol = 8; % kratno 8
-FileNameInput = '12345678'; %'TestScreen.png';
+FileNameInput = '12345678.txt'; %'TestScreen.png';
 FileNameOutput = 'OutPutFile';
 
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
