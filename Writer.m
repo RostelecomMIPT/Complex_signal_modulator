@@ -1,6 +1,6 @@
-function [ ] = Writer( FileNameOutput, OutpuBitsRSLOS )
+function [ ] = Writer( FileNameOutput, OutpuBitsRSLOS, AddZeroes )
     OutputFile = fopen( FileNameOutput, 'a+');
-    fwrite(OutputFile, OutpuBitsRSLOS);
+    fwrite(OutputFile, OutpuBitsRSLOS(1:end - AddZeroes));
     fclose(OutputFile);
 end
 
