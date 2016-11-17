@@ -28,6 +28,7 @@ FileNameOutput = 'OutPutFile';
 
 Nc = Nc + 1;
 [ InputBits, AddZeroes ] = Reader (FileNameInput, Nsk, Index_Inform);
+% Bits = InputBits;
 Bits = RSLOS( InputBits, Register );
 InformF = Mapper(Bits, Nsk);
 [MedSignalInF, Signal] = Inform_And_Pilot(...
@@ -56,7 +57,7 @@ IQ_Ts_Unshifted(1:PositionTs1) = [];
 
 MedFunc_TSync_FreqSync = ...
     FuncTs( IQ_Ts_Unshifted, Nfft , Index_Pilot, Nc);
-UsedF = -MedFunc_TSync_FreqSync(:,Index_Inform + 1);
+UsedF = MedFunc_TSync_FreqSync(:,Index_Inform + 1);
 OutputBits =  DeMapper(UsedF, Nsk);
 OutpuBitsRSLOS = RSLOS(OutputBits, Register);     
 Writer( FileNameOutput, OutpuBitsRSLOS, AddZeroes );
