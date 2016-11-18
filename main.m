@@ -4,17 +4,18 @@ clc;
 
 rng(0);
 Register = [1 0 0 1 0 1 0 1 0 0 0 0 0 0 0 ];
-Nsk = 16;
+Nsk = 4;
 Nfft = 1024;
 Nc = 400;
 w = 0;
-SNR = 200;
+SNR = 20;
 LevelOfIncreasing = 3;
 Ration_Of_Pilots = 0.1; 
-AmpPilot = 5;
+AmpPilot = 2;
 NumbOfSymbol = 8; % kratno 8
 FileNameInput = 'TestScreen.png'; %'TestScreen.png';
 FileNameOutput = 'OutPutFile.png';
+AddZeroes = 0;
 % a1 = fopen(FileNameInput,'r');
 % a2 = fopen(FileNameOutput, 'w');
 % a3 = fread(a1);
@@ -23,17 +24,45 @@ FileNameOutput = 'OutPutFile.png';
 
 [ Index_Inform , Index_Pilot ] = FormIndex ( Nc, Ration_Of_Pilots );
 
-% InputBits = randi( [0,1], 1, (1 - Ration_Of_Pilots) *...
-%                         NumbOfSymbol*Nc*log2(Nsk) );
+InputBits = randi( [0,1], 1, (1 - Ration_Of_Pilots) *...
+                        NumbOfSymbol*Nc*log2(Nsk) );
 
 Nc = Nc + 1;
-[ InputBits, AddZeroes ] = Reader (FileNameInput, Nsk, Index_Inform);
-% Bits = InputBits;
+% [ InputBits, AddZeroes ] = Reader (FileNameInput, Nsk, Index_Inform);
 Bits = RSLOS( InputBits, Register );
 InformF = Mapper(Bits, Nsk);
 [MedSignalInF, Signal] = Inform_And_Pilot(...
                 InformF, Index_Inform, Index_Pilot, Nfft, AmpPilot ); 
 SignalTs = AddTs (Signal, Nfft);
+
+
+
+
+
+t1 = 1;
+a1 = 1;
+t2 = 20;
+a2 = 2;
+t3 = 30;
+a3 = 3;
+t4 = 40;
+a4 = 0;
+t5 = 5;
+a5 = 0;
+SignalTs1 = SignalTs(1:Nfft);
+SignalTs2 = SignalTs(t1 + 1:Nfft+t1);
+SignalTs3 = SignalTs(t2 + 1:Nfft+t2);
+SignalTs4 = SignalTs(t3 + 1:Nfft+t3);
+SignalTs5 = SignalTs(t4 + 1:Nfft+t4);
+SignalTs6 = SignalTs(t5 + 1:Nfft+t5);
+Signal = SignalTs1 + SignalTs2.*a1 + a2*SignalTs3 +...
+    a3*SignalTs4 + a4*SignalTs5 + a5*SignalTs6;
+Fur = fft(Signal(1:1024));
+%hold on;
+plot(10*log10(abs(Fur)));
+
+
+
 
 
 IQ_Ts_Shift = Shift( SignalTs, w, Nfft );
