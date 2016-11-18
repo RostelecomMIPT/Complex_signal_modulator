@@ -23,7 +23,6 @@ function [ MedF1 ] = FuncTs( IQ_Ts_Unshifted, Nfft, Index_Pilot, Nc)
         end
         MedF1(k,:) = MedF(k,:);
         MedF1(k,2:Nc + 1) = MedF(k,2:Nc + 1) .* exp(-1i*Fi);
-        scatterplot(MedF1(k,:));
     end
 end
 
